@@ -30,6 +30,6 @@ jobs:
 
     - name: build and publish
       run: |
-        docker build . --squash --tag ghcr.io/${{ github.repository }}/py:3.8
-        docker run ghcr.io/${{ github.repository }}/py:3.8
-        docker push ghcr.io/${{ github.repository }}/py:3.8
+        docker build . --squash --tag ghcr.io/${{ github.repository }}/latest
+        docker run ghcr.io/${{ github.repository }}/latest
+        docker push ghcr.io/${{ github.repository }}/latest
