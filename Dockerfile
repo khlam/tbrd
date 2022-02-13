@@ -1,7 +1,6 @@
 FROM python:3.8.12-alpine3.15 as base
-RUN apk add --update --no-cache gcc g++ musl-dev python3-dev libffi-dev openssl-dev cargo && \
-    pip install tensorboard && \
-    apk del gcc g++ musl-dev python3-dev libffi-dev openssl-dev cargo
+RUN apk add --update --no-cache g++ && \
+    pip install tensorboard
 WORKDIR /app
 EXPOSE 6006
-#ENTRYPOINT ['python -m tensorboard.main --logdir /app/']
+ENTRYPOINT ['python3 /usr/local/lib/python3.8/site-packages/tensorboard/main.py --logdir /app/']
