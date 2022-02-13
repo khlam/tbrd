@@ -4,6 +4,4 @@ RUN apk add --update --no-cache gcc g++ musl-dev python3-dev libffi-dev openssl-
     apk del gcc g++ musl-dev python3-dev libffi-dev openssl-dev cargo
 WORKDIR /app
 EXPOSE 6006
-RUN useradd -m tbrd
-USER tbrd
 ENTRYPOINT ['tensorboard --logdir /app/']
