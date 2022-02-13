@@ -1,0 +1,35 @@
+name: publish
+
+on:
+  push:
+    branches: [main, dev]
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+
+    # https://colinsalmcorner.com/github-composite-actions/
+    - name: Enable experimental features for the Docker daemon and CLI
+      run: |
+        echo $'{\n "experimental": true\n}' | sudo tee /etc/docker/daemon.json
+        mkdir -p ~/.docker
+        echo $'{\n "experimental": "enabled"\n}' | sudo tee ~/.docker/config.json
+        sudo service docker restart
+        docker version -f '{{.Client.Experimental}}'
+        docker version -f '{{.Server.Experimental}}'
+
+    - name: GHCR Login
+      uses: khlam/login-action@v1
+      with:
+        registry: ghcr.io
+        username: ${{ github.actor }}
+        password: ${{ secrets.GITHUB_TOKEN }}
+
+    - name: build and publish
+      run: |
+        docker build . --squash --tag ghcr.io/${{ github.repository }}/py:3.8
+        docker run ghcr.io/${{ github.repository }}/py:3.8
+        docker push ghcr.io/${{ github.repository }}/py:3.8
