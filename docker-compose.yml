@@ -1,0 +1,11 @@
+version: "3.3"
+services:
+    tbrd:        
+        #image: ghcr.io/khlam/tbrd/tbrd:latest
+        build: .
+        volumes:
+          - ./tensorboard/:/app/
+        ports:
+          - 6006:6006
+        #command: "ls -la"
+        command: "python3 /usr/local/lib/python3.8/site-packages/tensorboard/main.py --logdir /app/"
